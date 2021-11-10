@@ -7,7 +7,7 @@ import (
 
 var OFFSET byte = 7
 
-func encode(text string, password string) (string, error) {
+func Encode(text string, password string) (string, error) {
 	if len(text) == 0 || len(password) == 0 {
 		return text, errors.New("text and password must have length greater than 0")
 	}
@@ -20,7 +20,7 @@ func encode(text string, password string) (string, error) {
 	return base64.StdEncoding.EncodeToString(encoded), nil
 }
 
-func decode(text string, password string) (string, error) {
+func Decode(text string, password string) (string, error) {
 	plain, err := base64.StdEncoding.DecodeString(text)
 	if err != nil {
 		return "", errors.New("invalid base64")
