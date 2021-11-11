@@ -2,25 +2,49 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/gemurdock/goencode/internal/crypto"
+	"github.com/urfave/cli/v2"
 )
 
 func main() {
-	var pass = "password"
-	var cryptoText, err = crypto.Encode("Hello World!", pass)
-	if err != nil {
-		fmt.Printf("%s\n", err)
-		os.Exit(-1)
+	app := &cli.App{
+		Name:  "GoEncode",
+		Usage: "Encode and decode text with Vigenere Cipher",
+		Commands: []*cli.Command{
+			{
+				Name:    "encrypt",
+				Aliases: []string{"e"},
+				Usage:   "encrypt text",
+				Action: func(c *cli.Context) error {
+					text, err := crypto.Encode(c.Args().First(), "test")
+					if err != nil {
+						return err
+					}
+					fmt.Println(text)
+					return nil
+				},
+			},
+			{
+				Name:    "decrypt",
+				Aliases: []string{"d"},
+				Usage:   "decrypt text",
+				Action: func(c *cli.Context) error {
+					text, err := crypto.Decode(c.Args().First(), "test")
+					if err != nil {
+						return err
+					}
+					fmt.Println(text)
+					return nil
+				},
+			},
+		},
 	}
-	fmt.Printf("CryptoText: %s\n", cryptoText)
 
-	var plainText string = ""
-	plainText, err = crypto.Decode(cryptoText, "password")
+	err := app.Run(os.Args)
 	if err != nil {
-		fmt.Printf("%s\n", err)
-		os.Exit(-1)
+		log.Fatal(err)
 	}
-	fmt.Printf("PlainText: %s\n", plainText)
 }
