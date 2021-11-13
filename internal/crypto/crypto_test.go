@@ -4,42 +4,21 @@ import (
 	"testing"
 )
 
-func TestEncode(t *testing.T) {
-	var goal = "v83m5u2W0Nrp1N6b"
-	var result, err = Encode("Hello World!", "password")
-	if result != goal || err != nil {
-		t.Errorf("Test Encode Failed: %s != %s", result, goal)
-	}
+func TestEncodeDecode(t *testing.T) {
+	testText := []string{"Hello World!", "How are you doing today?", "k2YBXm}e*;,xq>A\"8&kT", "Zn/'n7uH%$8(QC2+=&AE"}
+	password := "rK^\\8)rY8VQ$yP&R~4SZ"
 
-	goal = "q6q6m2mefZGOSJtvu72zlpBqhoiR"
-	result, err = Encode("CAPS TEXT TESTING NOW", "abcABC123!@#")
-	if result != goal || err != nil {
-		t.Errorf("Test Encode Failed: %s != %s", result, goal)
-	}
-
-	goal = "aseFvphopnWFvYrVo13MhrDIm7c="
-	result, err = Encode("!CW^),2:<9\\u4!XKgDmW", "B}'Yh5m4")
-	if result != goal || err != nil {
-		t.Errorf("Test Encode Failed: %s != %s", result, goal)
-	}
-}
-
-func TestDecode(t *testing.T) {
-	var goal = "Hello World!"
-	var result, err = Decode("v83m5u2W0Nrp1N6b", "password")
-	if result != goal || err != nil {
-		t.Errorf("Test Decode Failed: %s != %s", result, goal)
-	}
-
-	goal = "CAPS TEXT TESTING NOW"
-	result, err = Decode("q6q6m2mefZGOSJtvu72zlpBqhoiR", "abcABC123!@#")
-	if result != goal || err != nil {
-		t.Errorf("Test Decode Failed: %s != %s", result, goal)
-	}
-
-	goal = "!CW^),2:<9\\u4!XKgDmW"
-	result, err = Decode("aseFvphopnWFvYrVo13MhrDIm7c=", "B}'Yh5m4")
-	if result != goal || err != nil {
-		t.Errorf("Test Decode Failed: %s != %s", result, goal)
+	for _, text := range testText {
+		encoded, err := Encode(text, password)
+		if err != nil || len(encoded) == 0 {
+			t.Errorf("Test failed: %s\n", err)
+		}
+		decoded, err := Decode(encoded, password)
+		if err != nil || len(decoded) == 0 {
+			t.Errorf("Test failed: %s\n", err)
+		}
+		if text != decoded {
+			t.Errorf("Text does not match after encode and decode: %s -> %s\n", text, decoded)
+		}
 	}
 }
