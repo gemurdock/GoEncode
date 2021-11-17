@@ -1,9 +1,12 @@
 package appcli
 
 import (
+	"encoding/base64"
+	"errors"
 	"fmt"
 
 	"github.com/gemurdock/goencode/internal/crypto"
+	"github.com/gemurdock/goencode/internal/tools"
 	"github.com/urfave/cli/v2"
 )
 
@@ -35,6 +38,21 @@ func StartCLI() *cli.App {
 						return err
 					}
 					fmt.Println(text)
+					return nil
+				},
+			},
+			{
+				Name:    "measure",
+				Aliases: []string{"m"},
+				Usage:   "measure distribution of bytes for base64",
+				Action: func(c *cli.Context) error {
+					plain, err := base64.StdEncoding.DecodeString(c.Args().First())
+					if err != nil {
+						return errors.New("invalid base64")
+					}
+					fmt.Println("")
+					tools.PrettyDistribution(tools.GetByteDistribution(plain))
+					fmt.Println("")
 					return nil
 				},
 			},

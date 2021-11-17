@@ -25,3 +25,11 @@ func TestDecodeErrorOnInvalidBase64(t *testing.T) {
 		t.Errorf("Test failed: invalid base64 is not rejected\n")
 	}
 }
+
+func TestMeasure(t *testing.T) {
+	app := StartCLI()
+	err := app.Run([]string{"cipher", "measure", "w9sHm5+qM0ertt2N6cc"})
+	if err == nil {
+		t.Errorf("Test failed\n")
+	}
+}
