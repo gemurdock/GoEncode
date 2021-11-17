@@ -34,3 +34,18 @@ func CountOfXByte(array []byte, x byte) int {
 	}
 	return count
 }
+
+func NumCharLen(n int) int {
+	if n < 10 && n > -10 {
+		return 1
+	}
+	count := 0
+	if n < 0 {
+		n *= -1
+	}
+	for n > 0 {
+		count++
+		n /= 10
+	}
+	return count
+}

@@ -2,6 +2,7 @@ package tools
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -59,7 +60,7 @@ func PrettyDistribution(input []int) (int, error) {
 	total := 0
 
 	for index, x := range input {
-		text := fmt.Sprintf(" %d", x)
+		text := fmt.Sprintf(" %"+strconv.Itoa(NumCharLen(max))+"d", x)
 		if (index+1)%16 == 0 {
 			text += "\n"
 		}

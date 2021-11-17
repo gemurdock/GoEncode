@@ -76,3 +76,38 @@ func TestCountOfX(t *testing.T) {
 		assert.Equal(CountOfXByte(test.input, test.filter), test.output)
 	}
 }
+
+func TestNumCharLen(t *testing.T) {
+	assert := assert.New(t)
+
+	tests := [][]int{
+		{0, 1},
+		{1, 1},
+		{2, 1},
+		{10, 2},
+		{15, 2},
+		{123, 3},
+		{1234, 4},
+		{12345, 5},
+		{123456, 6},
+		{99999, 5},
+		{11111, 5},
+		{10000, 5},
+		{-0, 1},
+		{-1, 1},
+		{-2, 1},
+		{-10, 2},
+		{-15, 2},
+		{-123, 3},
+		{-1234, 4},
+		{-12345, 5},
+		{-123456, 6},
+		{-99999, 5},
+		{-11111, 5},
+		{-10000, 5},
+	}
+
+	for _, test := range tests {
+		assert.Equal(NumCharLen(test[0]), test[1])
+	}
+}
