@@ -29,7 +29,7 @@ func TestDecodeErrorOnInvalidBase64(t *testing.T) {
 func TestMeasure(t *testing.T) {
 	app := StartCLI()
 	err := app.Run([]string{"cipher", "measure", "w9sHm5+qM0ertt2N6cc"})
-	if err == nil {
+	if err != nil {
 		t.Errorf("Test failed\n")
 	}
 }

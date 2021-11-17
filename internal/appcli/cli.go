@@ -47,8 +47,10 @@ func StartCLI() *cli.App {
 				Usage:   "measure distribution of bytes for base64",
 				Action: func(c *cli.Context) error {
 					plain, err := base64.StdEncoding.DecodeString(c.Args().First())
-					if err != nil {
+					if err != nil && len(c.Args().First()) == 0 {
 						return errors.New("invalid base64")
+					} else if err != nil {
+						plain = []byte(c.Args().First())
 					}
 					fmt.Println("")
 					tools.PrettyDistribution(tools.GetByteDistribution(plain))
