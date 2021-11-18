@@ -12,15 +12,16 @@ import (
 
 func StartCLI() *cli.App {
 	return &cli.App{
-		Name:  "GoEncode",
-		Usage: "Encode and decode text with Vigenere Cipher",
+		Name:    "GoEncode",
+		Version: "alpha",
+		Usage:   "Encode and decode text with Vigenere Cipher",
 		Commands: []*cli.Command{
 			{
 				Name:    "encrypt",
 				Aliases: []string{"e"},
-				Usage:   "encrypt text",
+				Usage:   "encrypt \"TEXT\" \"PASSWORD\"",
 				Action: func(c *cli.Context) error {
-					text, err := crypto.Encode(c.Args().First(), "test")
+					text, err := crypto.Encode(c.Args().Get(0), c.Args().Get(1))
 					if err != nil {
 						return err
 					}
@@ -31,9 +32,9 @@ func StartCLI() *cli.App {
 			{
 				Name:    "decrypt",
 				Aliases: []string{"d"},
-				Usage:   "decrypt text",
+				Usage:   "decrypt \"TEXT\" \"PASSWORD\"",
 				Action: func(c *cli.Context) error {
-					text, err := crypto.Decode(c.Args().First(), "test")
+					text, err := crypto.Decode(c.Args().Get(0), c.Args().Get(1))
 					if err != nil {
 						return err
 					}

@@ -6,8 +6,8 @@ import (
 
 func TestEncodeDecode(t *testing.T) {
 	argTests := [][]string{
-		{"cipher", "encrypt", "Hello World!"},
-		{"cipher", "decrypt", "w9Hm5+qM0ert2N6c"},
+		{"cipher", "encrypt", "Hello World!", "password"},
+		{"cipher", "decrypt", "w9Hm5+qM0ert2N6c", "password"},
 	}
 	for _, args := range argTests {
 		app := StartCLI()
@@ -20,7 +20,7 @@ func TestEncodeDecode(t *testing.T) {
 
 func TestDecodeErrorOnInvalidBase64(t *testing.T) {
 	app := StartCLI()
-	err := app.Run([]string{"cipher", "decrypt", "w9sHm5+qM0ertt2N6cc"})
+	err := app.Run([]string{"cipher", "decrypt", "w9sHm5+qM0ertt2N6cc", "password"})
 	if err == nil {
 		t.Errorf("Test failed: invalid base64 is not rejected\n")
 	}
