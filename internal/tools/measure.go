@@ -55,6 +55,32 @@ func GetByteDistribution(input []byte) []int {
 	return distribution
 }
 
+func GetFrequency(input []int) []float32 {
+	total := Total(input)
+
+	output := make([]float32, len(input))
+
+	for i, x := range input {
+		output[i] = float32(x) / float32(total)
+	}
+
+	return output
+}
+
+func IsASCII(input []byte) bool {
+	frequency := GetFrequency(GetByteDistribution(input))
+
+	var percentASCII float32 = 0.0
+
+	for i, x := range frequency {
+		if i >= 32 && i <= 126 {
+			percentASCII += x
+		}
+	}
+
+	return percentASCII > 0.95
+}
+
 func PrettyDistribution(input []int) (int, error) {
 	min, max := MinMax(input)
 	total := 0

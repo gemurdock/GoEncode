@@ -6,12 +6,16 @@ import (
 	"errors"
 )
 
-var OFFSET byte = 7
+const (
+	OFFSET byte   = 7
+	HEADER string = "MESSAGE"
+)
 
 func Encode(text string, password string) (string, error) {
 	if len(text) == 0 || len(password) == 0 {
 		return text, errors.New("text and password must have length greater than 0")
 	}
+	text = HEADER + text
 
 	h := sha512.New()
 	h.Write([]byte(password))
@@ -41,5 +45,14 @@ func Decode(text string, password string) (string, error) {
 		x := b - (OFFSET + sha[index%len(sha)])
 		decoded = append(decoded, x)
 	}
-	return string(decoded), nil
+
+	if len(decoded) <= len(HEADER) {
+		return string(decoded), errors.New("incorrect password")
+	}
+
+	if string(decoded[0:len(HEADER)]) == HEADER {
+		return string(decoded[len(HEADER):]), nil
+	} else {
+		return string(decoded[len(HEADER):]), errors.New("incorrect password")
+	}
 }

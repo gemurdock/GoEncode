@@ -49,3 +49,11 @@ func NumCharLen(n int) int {
 	}
 	return count
 }
+
+func Total(array []int) int {
+	total := 0
+	for _, x := range array {
+		total += x
+	}
+	return total
+}

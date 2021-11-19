@@ -1,6 +1,8 @@
 package tools
 
 import (
+	"encoding/base64"
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -54,6 +56,46 @@ func TestGetByteDistribution(t *testing.T) {
 		for i := 0; i <= 255; i++ {
 			assert.Equal(output[i], CountOfXByte(array, byte(i)))
 		}
+	}
+}
+
+func TestGetFrequency(t *testing.T) {
+	assert := assert.New(t)
+
+	tests := []struct {
+		input  []int
+		output []float32
+	}{
+		{[]int{0, 1}, []float32{0.0, 1.0}},
+		{[]int{0, 1, 2, 3}, []float32{0, 0.16666667, 0.33333334, 0.5}},
+		{[]int{0, 255, 4, 8, 99, 0, 1, 2}, []float32{0, 0.6910569, 0.010840109, 0.021680217, 0.2682927, 0, 0.0027100272, 0.0054200543}},
+	}
+
+	for _, test := range tests {
+		assert.Equal(GetFrequency(test.input), test.output)
+	}
+}
+
+func TestIsASCII(t *testing.T) {
+	assert := assert.New(t)
+
+	tests := []struct {
+		input   string // base64
+		isASCII bool
+	}{
+		{"auukuK4sJgukjokKn4M0p/qdidvpCLxK7iAbS4TkYRQ=", false},
+		{"Yu9zqJBwSg6ClJgFlo83gBCOua3pFLSM++sOe4/RQwc=", false},
+		{"idRjtqtaRB5nhX4gcoYJrw3Kse3kGaV+DBkrfGzYQQc=", false},
+		{"ZktZa1FhcFkzUG1EZ0p0bkVLenFZUkFXWWRQV3ltUVI=", true},
+		{"dlJDNkdMMkJ2ZHlXZUp2dnVUZmZMWWUyZ0g0VzhrOUc=", true},
+		{"ZUQ3UkZlUDRXVmJHOWRtZE5ENjhMS0hIUlpCOXI0TFk=", true},
+		{"QVNDSUkgc3RhbmRzIGZvciBBbWVyaWNhbiBTdGFuZGFyZCBDb2RlIGZvciBJbmZvcm1hdGlvbiBJbnRlcmNoYW5nZS4=", true},
+	}
+
+	for i, test := range tests {
+		encoded, err := base64.StdEncoding.DecodeString(test.input)
+		assert.Equal(err, nil, fmt.Sprintf("Test #%d - %s", i+1, test.input))
+		assert.Equal(IsASCII(encoded), test.isASCII, fmt.Sprintf("Test #%d", i+1))
 	}
 }
 

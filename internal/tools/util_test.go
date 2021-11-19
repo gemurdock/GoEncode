@@ -111,3 +111,22 @@ func TestNumCharLen(t *testing.T) {
 		assert.Equal(NumCharLen(test[0]), test[1])
 	}
 }
+
+func TestTotal(t *testing.T) {
+	assert := assert.New(t)
+
+	tests := []struct {
+		input  []int
+		output int
+	}{
+		{[]int{1, 2, 3}, 6},
+		{[]int{9, 5, 4, 9, 3, 2}, 32},
+		{[]int{4, 8, 4, 99, -4}, 111},
+		{[]int{2, 4, 6, 8}, 20},
+		{[]int{0, 0, 1, 2, -5}, -2},
+	}
+
+	for _, test := range tests {
+		assert.Equal(Total(test.input), test.output)
+	}
+}

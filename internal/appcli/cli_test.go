@@ -7,7 +7,7 @@ import (
 func TestEncodeDecode(t *testing.T) {
 	argTests := [][]string{
 		{"cipher", "encrypt", "Hello World!", "password"},
-		{"cipher", "decrypt", "w9Hm5+qM0ert2N6c", "password"},
+		{"cipher", "decrypt", "BVVNFQRymgeQtAT098vXBANzBQ==", "password"},
 	}
 	for _, args := range argTests {
 		app := StartCLI()
